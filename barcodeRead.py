@@ -6,8 +6,8 @@ import time
 
 # get the webcam:  
 cap = cv2.VideoCapture(0)
-#cap.set(3,1280)
-#cap.set(4,720)
+#cap.set(3,640)
+#cap.set(4,480)
 #160.0 x 120.0
 #176.0 x 144.0
 #320.0 x 240.0
@@ -39,6 +39,8 @@ while(cap.isOpened()):
     ret, frame = cap.read()
     # Our operations on the frame come here
     im = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    im = cv2.convertScaleAbs(im, alpha=2, beta=-80)
+    im = cv2.fastNlMeansDenoising(im, None, 7, 21, 4)
          
     decodedObjects = decode(im)
 
@@ -56,7 +58,7 @@ while(cap.isOpened()):
         n = len(hull)     
         # Draw the convext hull
         for j in range(0,n):
-          cv2.line(frame, hull[j], hull[ (j+1) % n], (255,0,0), 3)
+          cv2.line(im, hull[j], hull[ (j+1) % n], (255,0,0), 3)
 
         x = decodedObject.rect.left
         y = decodedObject.rect.top
@@ -70,12 +72,12 @@ while(cap.isOpened()):
         cv2.putText(frame, barCode, (x, y), font, 1, (0,255,255), 2, cv2.LINE_AA)
                
    # Display the resulting frame
-   # cv2.imshow('frame',frame)
+   # cv2.imshow('frame',im)
    # key = cv2.waitKey(1)
-   #if key & 0xFF == ord('q'):
-   #     break
-   #elif key & 0xFF == ord('s'): # wait for 's' key to save 
-   #    cv2.imwrite('Capture.png', frame)     
+   # if key & 0xFF == ord('q'):
+   #   break
+   # elif key & 0xFF == ord('s'): # wait for 's' key to save 
+   #   cv2.imwrite('Capture.png', im)     
 
 # When everything done, release the capture
 cap.release()
