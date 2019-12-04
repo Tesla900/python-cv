@@ -5,9 +5,9 @@ import time
 
 
 # get the webcam:  
-cap = cv2.VideoCapture(1)
-cap.set(3,1280)
-cap.set(4,720)
+cap = cv2.VideoCapture(0)
+#cap.set(3,1280)
+#cap.set(4,720)
 #160.0 x 120.0
 #176.0 x 144.0
 #320.0 x 240.0
