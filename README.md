@@ -1,1 +1,1 @@
-# python-cv
+# python-cv barcode reader
